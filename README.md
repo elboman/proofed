@@ -1,7 +1,3 @@
-> Warning! This project is a WIP and it is actively developed. Feel free to try it out and please provide feedbacks by filing an issue or opening a PR.
-
-> The module has not been released on `npm` yet.
-
 # React Proofed 
 
 React proofed is a user interaction validation library for React.
@@ -17,7 +13,7 @@ This component requires two props in order to work: your validation `schema` and
 The render function will be called with one object argument that act as API for the validation class in the render function.
 
 ```javascript
-import * as React from 'react';
+import React, {Component} from 'react';
 import {Proofed} from 'react-proofed'; 
 
 const isString = (val) => typeof val === "string";
@@ -32,7 +28,7 @@ const schema = {
   }
 };
 
-export default class Form extends React.Component<any,any> {
+export default class Form extends Component {
   // This handle function is called with the form value
   handleSubmit = (form) => {
     console.debug('Form submitted:', form);
@@ -47,7 +43,7 @@ export default class Form extends React.Component<any,any> {
           <input value={model.name.first} onChange={handle('name.first')} /><br/>
           <input value={model.name.last} onChange={handle('name.last')} /><br/>
           <button onClick={submit(this.handleSubmit)}>submit!</button>
-          <p>{isPristine() ? 'The form is pristine'. 'The form is dirty!'}</p>
+          <p>{isPristine() ? 'The form is pristine' : 'The form is dirty!'}</p>
         </div>
       }/>
     );
