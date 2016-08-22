@@ -1,4 +1,7 @@
-import {get, set, mapValues, cloneDeep} from 'lodash';
+import get from 'lodash/get';
+import set from 'lodash/set';
+import mapValues from 'lodash/mapValues';
+import cloneDeep from 'lodash/cloneDeep';
 import {flatten, unflatten} from './utils/flat';
 
 export type IRule = (any) => boolean;
