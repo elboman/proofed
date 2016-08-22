@@ -1,12 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import ValidatorHandler from './ValidatorHandler';
 
-interface IProps {
+export interface IProps {
   schema: Object;
   render: Function;
 }
 
-export default class ProofedReactComponent extends Component<IProps,any> {
+export default class ProofedReactComponent extends Component<IProps, any> {
   validator: ValidatorHandler;
   static propTypes = {
     schema: PropTypes.object,
