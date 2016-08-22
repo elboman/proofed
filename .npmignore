@@ -3,5 +3,5 @@
 typings/
 node_modules/
 
-dist/
-_bundles/
+example/
+code/

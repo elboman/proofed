@@ -1,11 +1,32 @@
 {
+  "moduleResolution": "node",
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "suppressImplicitAnyIndexErrors": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "declaration": true,
+    "outDir": "dist",
+    "sourceRoot": "code",
+    "rootDir": "code"
+  },
+  "exclude": [
+    "node_modules",
+    "bower_components",
+    "example"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "declaration": false
   },
   "compileOnSave": false,
   "buildOnSave": false
