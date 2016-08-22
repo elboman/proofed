@@ -8,13 +8,18 @@ I wanted to have a simple solution similar to how `ng-model` works in Angular.
 
 ## Getting started
 
-React Proofed exposes a single `<Proofed/>` component.
-This component requires two props in order to work: your validation `schema` and the `render` function.
-The render function will be called with one object argument that act as API for the validation class in the render function.
+Install the library to get started:
+```
+npm install --save proofed
+```
+
+The library exposes a single `<Proofed>` component.
+It requires two props in order to work: your validation `schema` and the `render` function.
+The render function will be called with one object argument that act as API for the validation class in the function.
 
 ```javascript
 import React, {Component} from 'react';
-import {Proofed} from 'react-proofed'; 
+import {Proofed} from 'proofed'; 
 
 const isString = (val) => typeof val === "string";
 const longerThan = (len) => (val) => val.length > len;
@@ -54,8 +59,8 @@ export default class Form extends Component {
 ## Validation schema
 
 In order to implement validation, Proofed requires you to specify a validation schema. 
-It look like a JS object, and can be nested. **You may not use the string notation for defining the properties**.
-Every value is defined by an array, which contains the rules for validation and the default value (if needed).
+It look like a JS object, and can have a nested structure. **You may not use the string notation for defining the properties**.
+Every validation node is defined by an array which contains the rules for validation and the default value (if needed).
 ```js
 const mySchema = {
   name: ['My Default value', notEmpty, isString, () => true]
@@ -65,4 +70,33 @@ const mySchema = {
 The validation rules are simple function that accept the node value as input and must return `true` or `false` based on any logic you may want to implement.
 ```js
 const isString = (val) => typeof val === "string";
+```
+
+## API
+
+The render function will be called with a single object as argument.
+This object contains everything needed to implement custom render logic based on validation, as well as event handler for value changes.
+
+```javascript
+renderArgument = {
+  // contains the user input data.
+  model: Object,
+  // returns a function to handle event change for the
+  // given node path of the validation schema.
+  handle: Function (nodePath),
+  // returns a function for handling form submitting.
+  // The provided handle function will be called with the model as argument.
+  submit: Function (handlerFunction),
+  // utility function used for evaluating the pristine/dirty
+  // state of the whole tree or for each node (if a node string)
+  // is provided as argument
+  isPristine: Function (nodePath?)
+}
+```
+
+If you are using ES6 you can use the object deconstruction notation for a cleaner code and to avoid repeating the single parameter object:
+```jsx
+<Proofed schema={schema} render={({model, handle}) =>
+  <input value={model.myNode} onChange={handle('myNode')} /><br/>
+}/>
 ```
