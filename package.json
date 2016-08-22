@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "start": "webpack-dev-server --host 0.0.0.0 --port 8000 --config example/webpack.config.js --history-api-fallback --content-base example",
+    "start": "NODE_ENV=development webpack-dev-server --host 0.0.0.0 --port 8000 --config webpack.config.js --history-api-fallback --content-base example",
     "bundle": "rimraf _bundles && mkdirp _bundles && NODE_ENV=production webpack",
     "compile": "rimraf dist && mkdirp dist && node ./node_modules/typescript/bin/tsc",
     "package": "npm run bundle && npm run compile"
