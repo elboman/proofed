@@ -4,7 +4,7 @@ React proofed is a user interaction validation library for React.
 Its main use is for implementing form with validation, but can be used for any type of user interaction.
 
 Many current implementation for forms requires you to create custom input Component.
-I wanted to have a simple solution similar to how `ng-model` works in Angular.
+I wanted to have a simple, flexible and declarative solution.
 
 ## Getting started
 
