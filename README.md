@@ -88,9 +88,12 @@ renderArgument = {
   // The provided handle function will be called with the model as argument.
   submit: Function (handlerFunction),
   // utility function used for evaluating the pristine/dirty
-  // state of the whole tree or for each node (if a node string)
-  // is provided as argument
-  isPristine: Function (nodePath?)
+  // state of the whole tree or for each node (if a node string
+  // is provided as argument)
+  isPristine: Function (nodePath?),
+  // utility function used for evaluating if path node (when provided)
+  // of full model is valid in given time
+  isValid: Function (nodePath?)
 }
 ```
 
