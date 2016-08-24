@@ -117,4 +117,10 @@ export default class ValidatorHandler {
       ? this.model[path].pristine === true
       : this.pristine === true;
   }
+
+  valid = (path?: string): boolean => {
+    return path
+      ? this.model[path].valid === true
+      : Object.getOwnPropertyNames(this.model).every(path => this.model[path].valid === true)
+  }
 }
