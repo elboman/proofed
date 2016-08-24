@@ -28,7 +28,7 @@ export default class ProofedReactComponent extends Component<IProps, any> {
       model: this.validator.getModel(),
       handle: this.validator.handle,
       isPristine: this.validator.isPristine,
-      submit: (cb) => (e) => cb(this.validator.getModel(), e)
+      submit: this.validator.getSubmit(),
     }
     let rendered = this.props.render(arg) 
     return rendered;

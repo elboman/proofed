@@ -93,14 +93,23 @@ export default class ValidatorHandler {
   }
 
   handle = (path: string): Function => {
+    // check if provided path is a valid one
+    if (typeof this.model[path] === 'undefined') throw new Error(`Schema path '${path}' provided to 'handle()' not found. Please check your validation schema.`);
     // return function for handling changes
-    return (e) => this.updateNode(path, e.target.value);
+    else return (e) => this.updateNode(path, e.target.value);
   }
 
   getModel = (): any => {
     let modelWithJustValues = mapValues(this.model, fullModelNode => fullModelNode.value);
     let unflattenedModel = unflatten(modelWithJustValues, {});
     return unflattenedModel;
+  }
+
+  getSubmit = () => {
+    return (cb) => {
+      if (typeof cb !== 'function') throw new Error(`Function '${cb}' provided to 'submit()' is not valid.`);
+      else return (e) => cb(this.getModel(), e)
+    }
   }
 
   isPristine = (path?: string): boolean => {
