@@ -4,7 +4,7 @@ import * as mapValues from 'lodash/mapValues';
 import * as cloneDeep from 'lodash/cloneDeep';
 import {flatten, unflatten} from './utils/flat';
 
-export type IRule = (any) => boolean | string;
+export type IRule = (value:any, model:any) => boolean | string;
 export type ISchemaAttribute = IRule[];
 
 export type IErrorList = string[];
@@ -48,6 +48,9 @@ export default class ValidatorHandler {
   constructor (schema: ISchema) {
     this.schema = schema;
     this.model = this.createValidatorModelFromSchema(schema);
+    Object.getOwnPropertyNames(this.model).forEach(path => {
+      this.updateNode(path, this.model[path].value);
+    });
   }
 
   private createValidatorModelFromSchema = (schema: ISchema): IValidationModel => {
@@ -60,20 +63,22 @@ export default class ValidatorHandler {
         default: defaultValue,
         value: defaultValue,
         pristine: true,
-        valid: this.isValid(defaultValue, rules),
-        errors: this.getErrors(defaultValue, rules)
+        valid: true,
+        errors: []
       }
     }) as IValidationModel;
     return validationModel;
   }
 
   private isValid (value: any, rules: IRule[]): boolean {
-    return rules.every(rule => rule(value) === true);
+    let model = this.getModel();
+    return rules.every(rule => rule(value, model) === true);
   }
 
   private getErrors (value: any, rules: IRule[]): string[] {
+    let model = this.getModel();
     return rules
-      .map(rule => rule(value))
+      .map(rule => rule(value, model))
       .filter(result => typeof result === 'string') as string[];
   }
 
@@ -89,7 +94,7 @@ export default class ValidatorHandler {
     }
     this.model[path] = newNode;
     this.pristine = false;
-    this.subscriber();
+    typeof this.subscriber === 'function' && this.subscriber();
   }
 
   /*
