@@ -4,8 +4,10 @@ import * as mapValues from 'lodash/mapValues';
 import * as cloneDeep from 'lodash/cloneDeep';
 import {flatten, unflatten} from './utils/flat';
 
-export type IRule = (any) => boolean;
+export type IRule = (any) => boolean | string;
 export type ISchemaAttribute = IRule[];
+
+export type IErrorList = string[];
 
 export interface ISchemaNode {
   [attribute: string]: ISchemaAttribute | ISchemaNode;
@@ -21,6 +23,7 @@ export interface IValidationModelNode {
   default: any;
   pristine: boolean;
   valid: boolean;
+  errors: string[];
 }
 
 export interface IValidationModel {
@@ -57,7 +60,8 @@ export default class ValidatorHandler {
         default: defaultValue,
         value: defaultValue,
         pristine: true,
-        valid: this.isValid(defaultValue, rules)
+        valid: this.isValid(defaultValue, rules),
+        errors: this.getErrors(defaultValue, rules)
       }
     }) as IValidationModel;
     return validationModel;
@@ -67,6 +71,12 @@ export default class ValidatorHandler {
     return rules.every(rule => rule(value) === true);
   }
 
+  private getErrors (value: any, rules: IRule[]): string[] {
+    return rules
+      .map(rule => rule(value))
+      .filter(result => typeof result === 'string') as string[];
+  }
+
   private updateNode = (path: string, newValue: any): void => {
     let node = this.model[path];
     let newNode = {
@@ -74,7 +84,8 @@ export default class ValidatorHandler {
       default: node.default,
       value: newValue,
       pristine: false,
-      valid: this.isValid(newValue, node.rules)
+      valid: this.isValid(newValue, node.rules),
+      errors: this.getErrors(newValue, node.rules)
     }
     this.model[path] = newNode;
     this.pristine = false;
@@ -122,5 +133,11 @@ export default class ValidatorHandler {
     return path
       ? this.model[path].valid === true
       : Object.getOwnPropertyNames(this.model).every(path => this.model[path].valid === true)
+  }
+
+  errors = (path?: string): IErrorList => {
+    return path
+      ? this.model[path].errors
+      : [].concat(Object.getOwnPropertyNames(this.model).map(path => this.model[path].errors))
   }
 }
