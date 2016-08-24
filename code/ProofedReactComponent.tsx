@@ -29,7 +29,7 @@ export default class ProofedReactComponent extends Component<IProps, any> {
       handle: this.validator.handle,
       isPristine: this.validator.isPristine,
       submit: this.validator.getSubmit(),
-      valid: this.validator.valid
+      isValid: this.validator.valid
     }
     let rendered = this.props.render(arg) 
     return rendered;
