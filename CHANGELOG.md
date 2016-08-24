@@ -1,7 +1,9 @@
 # [0.1.2](https://github.com/elboman/proofed/releases/tag/0.1.2) (2016-08-24)
 ### Added
-- **Valid**: add `valid` API in order to check if specified node/whole model is valid in render function [(c865961)](https://github.com/elboman/proofed/commit/c8659611db10159c612fe826e9ec7d9a2dd6220d).
-- **Errors**: add error handling when path nodes or callback functions provided are undefined or not specified in validation schema [(fdac7a4)](https://github.com/elboman/proofed/commit/fdac7a4433b5ff7073312462dfe0be2fd8af42c8).
+- **Valid**: add `isValid` API in order to check if specified node/whole model is valid in render function [(c865961)](https://github.com/elboman/proofed/commit/c8659611db10159c612fe826e9ec7d9a2dd6220d).
+- **Errors**: add `errors` API for listing single node/whole model errors in render function [(ef2d297)](https://github.com/elboman/proofed/commit/ef2d29721af721ee2a67eb9009f92001d8c903ec).
+- **Validation rules**: validation rules can take a second argument containing the whole model, for implementing advanced validation. [(4143c8d)](https://github.com/elboman/proofed/commit/4143c8d3b88f990d05dab26fc81101c8c1c80f0e). 
+- **Exceptions**: add error handling when path nodes or callback functions provided are undefined or not specified in validation schema [(fdac7a4)](https://github.com/elboman/proofed/commit/fdac7a4433b5ff7073312462dfe0be2fd8af42c8).
 
 ### Fix
 - **Lodash**: fix import statements to work properly in TypeScript [(234f967)](https://github.com/elboman/proofed/commit/234f967e735c709a8f61ee6da3c5e67162418b7c).

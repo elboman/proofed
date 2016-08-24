@@ -17,16 +17,16 @@ The library exposes a single `<Proofed>` component.
 It requires two props in order to work: your validation `schema` and the `render` function.
 The render function will be called with one object argument that act as API for the validation class in the function.
 
-```javascript
+```jsx
 import React, {Component} from 'react';
 import {Proofed} from 'proofed'; 
 
-const isString = (val) => typeof val === "string";
+const isString = (val) => /^[a-zA-Z]+$/.test(val);
 const longerThan = (len) => (val) => val.length > len;
-const isNumber = (val) => typeof val === "number";
+const isNumber = (val) => /\d/.test(val);
 
 const schema = {
-  age: [30, isNumber, longerThan(1)],
+  age: [30, isNumber],
   name: {
     first: ['First Name', isString, longerThan(3)],
     last: ['Last Name', isString, longerThan(3)],
@@ -41,14 +41,24 @@ export default class Form extends Component {
 
   render () {
     return (
-      <Proofed schema={schema} render={({model, handle, submit, isPristine}) =>
+      <Proofed schema={schema} render={({model, handle, submit, isValid, isPristine, errors}) =>
         <div>
           <h3>My awesome form!</h3>
-          <input value={model.age} onChange={handle('age')} /><br/>
-          <input value={model.name.first} onChange={handle('name.first')} /><br/>
-          <input value={model.name.last} onChange={handle('name.last')} /><br/>
+          <div>
+            <input value={model.age} onChange={handle('age')} type="number" />
+            {errors('age').map((error, i) => <p key={i}>{error}</p>)}
+          </div>
+          <div>
+            <input value={model.name.first} onChange={handle('name.first')} />
+            {errors('name.first').map((error, i) => <p key={i}>{error}</p>)}
+          </div>
+          <div>
+            <input value={model.name.last} onChange={handle('name.last')} />
+            {errors('name.last').map((error, i) => <p key={i}>{error}</p>)}
+          </div>
           <button onClick={submit(this.handleSubmit)}>submit!</button>
           <p>{isPristine() ? 'The form is pristine' : 'The form is dirty!'}</p>
+          <p>{isValid() ? 'The form is valid!' : 'The form is not valid!'}</p>
         </div>
       }/>
     );
@@ -59,7 +69,7 @@ export default class Form extends Component {
 ## Validation schema
 
 In order to implement validation, Proofed requires you to specify a validation schema. 
-It look like a JS object, and can have a nested structure. **You may not use the string notation for defining the properties**.
+It's a JS object which can have a nested structure. **You may not use the string notation for defining the properties**.
 Every validation node is defined by an array which contains the rules for validation and the default value (if needed).
 ```js
 const mySchema = {
@@ -67,10 +77,21 @@ const mySchema = {
 }
 ```
 
-The validation rules are simple function that accept the node value as input and must return `true` or `false` based on any logic you may want to implement.
+The validation rules are simple function that accept the node value as input and must return `true` in case the value is valid. Any other value will be considered as not valid.
+You may return a string for specifying the error in case the value is invalid.
 ```js
-const isString = (val) => typeof val === "string";
+const isString = (val) => /^[a-zA-Z]+$/.test(val);
+
+// if you want you can specify an error
+const isString = (val) => /^[a-zA-Z]+$/.test(val) || 'The value must only contain letters.';
 ```
+
+#### Advanced validation
+Sometimes you may need to create validation for a node based on other nodes value (i.e. checking if two passwords match). 
+You can specify a second argument in the validation rules functions that will have the whole object model as value.
+```js
+const matchPassword = (val, model) => val === model.password || 'Values do not match';
+``` 
 
 ## API
 
@@ -81,19 +102,28 @@ This object contains everything needed to implement custom render logic based on
 renderArgument = {
   // contains the user input data.
   model: Object,
+
   // returns a function to handle event change for the
   // given node path of the validation schema.
   handle: Function (nodePath),
+
   // returns a function for handling form submitting.
   // The provided handle function will be called with the model as argument.
   submit: Function (handlerFunction),
+
   // utility function used for evaluating the pristine/dirty
   // state of the whole tree or for each node (if a node string
   // is provided as argument)
   isPristine: Function (nodePath?),
+
   // utility function used for evaluating if path node (when provided)
   // of full model is valid in given time
-  isValid: Function (nodePath?)
+  isValid: Function (nodePath?),
+  
+  // utility function for listing validation errors related to single
+  // node (if specified) or whole model.
+  // Returns an array of strings or empty array when no errors are found
+  errors: Function (nodePath?)
 }
 ```
 
