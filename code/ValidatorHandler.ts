@@ -57,7 +57,7 @@ export default class ValidatorHandler {
     let flattenSchema = flatten(schema, {});
     let validationModel = mapValues(flattenSchema, (rulesAndDefault, path) => {
       let rules = rulesAndDefault.filter(rule => typeof rule === 'function');
-      let defaultValue = rulesAndDefault.filter(rule => typeof rule !== 'function')[0] || undefined;
+      let defaultValue = rulesAndDefault.filter(rule => typeof rule !== 'function')[0];
       return <IValidationModelNode>{
         rules: rules,
         default: defaultValue,

@@ -10,7 +10,7 @@ const schema = {
   age: [25, isNumber, longerThan(1)],
   name: {
     first: [isString, longerThan(3), 'Marco'],
-    last: [isString, longerThan(3), 'Botto'],
+    last: [isString, longerThan(3), ''],
     nickname: {
       snari: [isString, 'Elbo']
     }
