@@ -1,3 +1,7 @@
+# [0.1.3](https://github.com/elboman/proofed/releases/tag/0.1.3) (2016-09-07)
+### Fix
+- **Default Value**: Default value can be anything (it may coerce to false) [(44e5576)](https://github.com/elboman/proofed/commit/44e5576dc2e36afd81c2cb6daf4ca738b898b4c0)
+
 # [0.1.2](https://github.com/elboman/proofed/releases/tag/0.1.2) (2016-08-24)
 ### Added
 - **Valid**: add `isValid` API in order to check if specified node/whole model is valid in render function [(c865961)](https://github.com/elboman/proofed/commit/c8659611db10159c612fe826e9ec7d9a2dd6220d).
