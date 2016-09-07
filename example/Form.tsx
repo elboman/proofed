@@ -1,19 +1,15 @@
 import * as React from 'react';
-import {Proofed} from '../code/index'; 
+import {Proofed} from '../code/index';
 
-const isString = (val) => typeof val === "string";
-const longerThan = (len) => (val) => val.length > len;
-const isNumber = (val) => typeof val === "number";
+const isString = (val) => /^[a-zA-Z ]+$/.test(val) || "Not a string";
+const longerThan = (len) => (val) => val.length > len || `Must be longer than ${len}`;
+const isNumber = (val) => /\d/.test(val) || "Not a number";
 
-// Create a form as you would normally
 const schema = {
-  age: [25, isNumber, longerThan(1)],
+  age: [30, isNumber],
   name: {
-    first: [isString, longerThan(3), 'Marco'],
-    last: [isString, longerThan(3), ''],
-    nickname: {
-      snari: [isString, 'Elbo']
-    }
+    first: ['First Name', isString, longerThan(3)],
+    last: ['Last Name', isString, longerThan(3)],
   }
 };
 
@@ -25,15 +21,26 @@ export default class Form extends React.Component<any,any> {
 
   render () {
     return (
-      <Proofed schema={schema} render={({model, handle, submit}) =>
-        <div>
-          <h3>React is awesome!</h3>
-          <input value={model.age} onChange={handle('age')} />
-          <input value={model.name.first} onChange={handle('name.first')} />
-          <input value={model.name.last} onChange={handle('name.last')} />
-          <button onClick={submit(this.handleSubmit)}>submit!</button>
-        </div>
-      }/>
+        <Proofed schema={schema} render={({model, handle, submit, isValid, isPristine, errors}) =>
+         <div>
+           <h3>My awesome form!</h3>
+           <div>
+             <input value={model.age} onChange={handle('age')} type="number" />
+             {errors('age').map((error, i) => <p key={i}>{error}</p>)}
+           </div>
+           <div>
+             <input value={model.name.first} onChange={handle('name.first')} />
+             {errors('name.first').map((error, i) => <p key={i}>{error}</p>)}
+           </div>
+           <div>
+             <input value={model.name.last} onChange={handle('name.last')} />
+             {errors('name.last').map((error, i) => <p key={i}>{error}</p>)}
+           </div>
+           <button onClick={submit(this.handleSubmit)}>submit!</button>
+           <p>{isPristine() ? 'The form is pristine' : 'The form is dirty!'}</p>
+           <p>{isValid() ? 'The form is valid!' : 'The form is not valid!'}</p>
+         </div>
+       }/>
     );
   }
 }
