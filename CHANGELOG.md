@@ -1,3 +1,7 @@
+# [0.1.4](https://github.com/elboman/proofed/releases/tag/0.1.4) (2016-09-08)
+### Fix
+- **isPristine()**: Dirty checking is skipped when setting the default values for each node [(86816c6)](https://github.com/elboman/proofed/commit/86816c6c25a8a73413ee138e4049162bd7b5541f)
+
 # [0.1.3](https://github.com/elboman/proofed/releases/tag/0.1.3) (2016-09-07)
 ### Fix
 - **Default Value**: Default value can be anything (it may coerce to false) [(44e5576)](https://github.com/elboman/proofed/commit/44e5576dc2e36afd81c2cb6daf4ca738b898b4c0)
