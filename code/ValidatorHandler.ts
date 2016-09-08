@@ -49,7 +49,7 @@ export default class ValidatorHandler {
     this.schema = schema;
     this.model = this.createValidatorModelFromSchema(schema);
     Object.getOwnPropertyNames(this.model).forEach(path => {
-      this.updateNode(path, this.model[path].value);
+      this.updateNode(path, this.model[path].value, true);
     });
   }
 
@@ -82,18 +82,18 @@ export default class ValidatorHandler {
       .filter(result => typeof result === 'string') as string[];
   }
 
-  private updateNode = (path: string, newValue: any): void => {
+  private updateNode = (path: string, newValue: any, skipPristineCheck?: boolean): void => {
     let node = this.model[path];
     let newNode = {
       rules: node.rules,
       default: node.default,
       value: newValue,
-      pristine: false,
+      pristine: skipPristineCheck ? node.pristine : false,
       valid: this.isValid(newValue, node.rules),
       errors: this.getErrors(newValue, node.rules)
     }
     this.model[path] = newNode;
-    this.pristine = false;
+    this.pristine = skipPristineCheck ? this.pristine : false;
     typeof this.subscriber === 'function' && this.subscriber();
   }
 
