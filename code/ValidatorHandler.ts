@@ -124,7 +124,7 @@ export default class ValidatorHandler {
   getSubmit = () => {
     return (cb) => {
       if (typeof cb !== 'function') throw new Error(`Function '${cb}' provided to 'submit()' is not valid.`);
-      else return (e) => cb(this.getModel(), e)
+      else return (e) => cb(e, this.getModel(), this.errors())
     }
   }
 
