@@ -1,3 +1,7 @@
+# [0.2.0](https://github.com/elboman/proofed/releases/tag/0.2.0) (2016-09-17)
+### Changed:
+- **getSubmit**: function provided to `getSubmit` gets called with new arguments order: `e`(event), `model`, `errors` [(49e3322)](https://github.com/elboman/proofed/commit/49e3322424b049e4680a210a02fdf5860169d767)
+
 # [0.1.4](https://github.com/elboman/proofed/releases/tag/0.1.4) (2016-09-08)
 ### Fix
 - **isPristine()**: Dirty checking is skipped when setting the default values for each node [(86816c6)](https://github.com/elboman/proofed/commit/86816c6c25a8a73413ee138e4049162bd7b5541f)
