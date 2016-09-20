@@ -10,12 +10,13 @@ const schema = {
   name: {
     first: ['First Name', isString, longerThan(3)],
     last: ['Last Name', isString, longerThan(3)],
-  }
+  },
+  subscribe: [false, (val) => val]
 };
 
 export default class Form extends React.Component<any,any> {
   // This handle function is called with the form value
-  handleSubmit = (form) => {
+  handleSubmit = (e, form) => {
     console.debug('Form submitted!', form);
   }
 
@@ -35,6 +36,10 @@ export default class Form extends React.Component<any,any> {
            <div>
              <input value={model.name.last} onChange={handle('name.last')} />
              {errors('name.last').map((error, i) => <p key={i}>{error}</p>)}
+           </div>
+           <div>
+            <input type="checkbox" checked={model.subscribe} onChange={handle('subscribe', (e) => e.target.checked)} />
+            {' '}Subscribe
            </div>
            <button onClick={submit(this.handleSubmit)}>submit!</button>
            <p>{isPristine() ? 'The form is pristine' : 'The form is dirty!'}</p>
