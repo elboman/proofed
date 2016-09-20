@@ -108,11 +108,17 @@ export default class ValidatorHandler {
     return this.model[path].value;
   }
 
-  handle = (path: string): Function => {
+  handle = (path: string, mapValue?: (e:any) => any ): Function => {
     // check if provided path is a valid one
-    if (typeof this.model[path] === 'undefined') throw new Error(`Schema path '${path}' provided to 'handle()' not found. Please check your validation schema.`);
+    if (typeof this.model[path] === 'undefined') throw new Error(`[handle('${path}')] Schema path ('${path}') not found. Please check your validation schema.`);
     // return function for handling changes
-    else return (e) => this.updateNode(path, e.target.value);
+    if (mapValue && typeof mapValue !== 'function') throw new Error(`[handle('${path}', mapValue)]: mapValue must be of type function, instead got '${typeof mapValue}'`);
+    else if(mapValue && typeof mapValue == 'function') return (e) => {
+      let mapped = mapValue(e);
+      if (typeof mapped === 'undefined') throw new Error(`[handle('${path}', mapValue)]: mapValue must return a value, instead got 'undefined'`);
+      this.updateNode(path, mapped);
+    }
+    return (e) => this.updateNode(path, e.target.value);
   }
 
   getModel = (): any => {
