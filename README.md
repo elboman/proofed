@@ -105,7 +105,7 @@ renderArgument = {
 
   // returns a function to handle event change for the
   // given node path of the validation schema.
-  handle: Function (nodePath),
+  handle: Function (nodePath, mapValueFunction),
 
   // returns a function for handling form submitting.
   // The provided handle function will be called with the model as argument.
@@ -133,3 +133,39 @@ If you are using ES6 you can use the object deconstruction notation for a cleane
   <input value={model.myNode} onChange={handle('myNode')} /><br/>
 }/>
 ```
+
+### `handle()`
+The handle function returns a function that handles the changes in the model for a particular node path.
+By default it will update the node with the `e.target.value`.
+
+Sometimes you may need to customise this behaviour (with check boxes for example).
+In this case you pass a second argument that will work as a mapping function, this function receives the event `e` as argument:
+
+```jsx
+<Proofed schema={schema} render={({model, handle}) =>
+  <input type="checkbox" checked={model.myNode} onChange={handle('myNode', e => e.target.checked)} /><br/>
+}/>
+```
+
+### `submit()`
+The submit function is used for handling the submission of the user inputs.
+The function passed to `submit` is called with 3 arguments:
+
+- `e`: The original event that triggered the submit.
+- `model`: The model of the entire schema with the current values.
+- `errors`: Any errors that maybe present with the current values.
+
+> NOTE: `errors` will only contains errors that are specified by the validation rules functions.
+>
+> If no error is returned (and just `false` instead) the arrays may be empty.
+
+The errors will be an array containing arrays of errors, one for each node that has errors:
+```
+errors = [
+  ['Username must be defined.', 'Username is too short.'],
+  ['Password is too long.']
+]
+
+// You may flatten the arrays to get one containing all errors:
+allErrors = [].concat.apply([], errors);
+```  
