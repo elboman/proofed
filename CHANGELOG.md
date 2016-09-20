@@ -1,3 +1,7 @@
+# [0.2.1](https://github.com/elboman/proofed/releases/tag/0.2.1) (2016-09-20)
+### Added
+- **handle()**: handle function now accepts a second argument `mapValue` function. The function gets called with the event `e` as argument. [(0b76074)](https://github.com/elboman/proofed/commit/0b7607482d3ac6da7f477469077bb126de817e13)
+
 # [0.2.0](https://github.com/elboman/proofed/releases/tag/0.2.0) (2016-09-17)
 ### Changed:
 - **getSubmit**: function provided to `getSubmit` gets called with new arguments order: `e`(event), `model`, `errors` [(49e3322)](https://github.com/elboman/proofed/commit/49e3322424b049e4680a210a02fdf5860169d767)
