@@ -1,6 +1,6 @@
 {
   "name": "proofed",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A flexible library for user interaction validation",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
