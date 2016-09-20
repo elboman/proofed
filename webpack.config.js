@@ -10,7 +10,7 @@ const webpackProduction = {
     path: path.resolve(__dirname, '_bundles'),
     filename: '[name].js',
     libraryTarget: "umd",
-    library: "react-proofed",
+    library: "Proofed",
     umdNamedDefine: true
   },
   resolve: {
@@ -33,8 +33,7 @@ const webpackProduction = {
     ]
   },
   externals: {
-    "react": "React",
-    "react-dom": "ReactDOM"
+    "react": { root: 'React', amd: 'react', commonjs2: 'react', commonjs: 'react' }
   }
 }
 
