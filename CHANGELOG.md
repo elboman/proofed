@@ -1,3 +1,10 @@
+# [0.2.2](https://github.com/elboman/proofed/releases/tag/0.2.2) (2016-09-21)
+### Fix
+- **Proofed Component**: You can now provide dynamic schema and the Proofed component with apply it when received.
+When applying the new schema model values for nodes are retained.
+When getting the model, only nodes that are present in the current schema are returned [(7a72efe)](https://github.com/elboman/proofed/commit/7a72efe509af39d6bf6b69dd6e7a21a11991ea49).
+- **Validation**: When a node is updated, errors are calculated for every node, since they may depend on the node's new value. [(974b3e7)](https://github.com/elboman/proofed/commit/974b3e735fe67df2b3dfe2450db5969b2f59801e)
+
 # [0.2.1](https://github.com/elboman/proofed/releases/tag/0.2.1) (2016-09-20)
 ### Added
 - **handle()**: handle function now accepts a second argument `mapValue` function. The function gets called with the event `e` as argument. [(0b76074)](https://github.com/elboman/proofed/commit/0b7607482d3ac6da7f477469077bb126de817e13)
