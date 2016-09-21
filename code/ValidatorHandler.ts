@@ -104,7 +104,11 @@ export default class ValidatorHandler {
     typeof this.subscriber === 'function' && this.subscriber();
   }
 
-  private updateSchema = (schema: ISchema):void => {
+  /*
+  * Public API
+  */
+
+  updateSchema = (schema: ISchema):void => {
     this.schema = schema;
     this.model = this.createValidatorModelFromSchema(schema, true);
     Object.getOwnPropertyNames(this.model).forEach(path => {
@@ -112,9 +116,6 @@ export default class ValidatorHandler {
     });
   }
 
-  /*
-  * Public API
-  */
   setUpdateCallback = (callback: Function): void => {
     this.subscriber = callback;
   }
