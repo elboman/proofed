@@ -23,6 +23,10 @@ export default class ProofedReactComponent extends Component<IProps, any> {
     this.setState({});
   }
 
+  componentWillReceiveProps (nextProps) {
+    this.validator.updateSchema(nextProps.schema);
+  }
+
   render() {
     const arg = {
       model: this.validator.getModel(),

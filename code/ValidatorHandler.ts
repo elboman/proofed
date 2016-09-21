@@ -2,6 +2,7 @@ import * as get from 'lodash/get';
 import * as set from 'lodash/set';
 import * as mapValues from 'lodash/mapValues';
 import * as cloneDeep from 'lodash/cloneDeep';
+import * as pick from 'lodash/pick';
 import {flatten, unflatten} from './utils/flat';
 
 export type IRule = (value:any, model:any) => boolean | string;
@@ -53,15 +54,18 @@ export default class ValidatorHandler {
     });
   }
 
-  private createValidatorModelFromSchema = (schema: ISchema): IValidationModel => {
+  private createValidatorModelFromSchema = (schema: ISchema, retainModel?: boolean): IValidationModel => {
     let flattenSchema = flatten(schema, {});
     let validationModel = mapValues(flattenSchema, (rulesAndDefault, path) => {
       let rules = rulesAndDefault.filter(rule => typeof rule === 'function');
       let defaultValue = rulesAndDefault.filter(rule => typeof rule !== 'function')[0];
+      let value = defaultValue;
+      if (retainModel && this.model && this.model[path] && this.model[path].value)
+        value = this.model[path].value;
       return <IValidationModelNode>{
         rules: rules,
         default: defaultValue,
-        value: defaultValue,
+        value: value,
         pristine: true,
         valid: true,
         errors: []
@@ -100,6 +104,14 @@ export default class ValidatorHandler {
     typeof this.subscriber === 'function' && this.subscriber();
   }
 
+  private updateSchema = (schema: ISchema):void => {
+    this.schema = schema;
+    this.model = this.createValidatorModelFromSchema(schema, true);
+    Object.getOwnPropertyNames(this.model).forEach(path => {
+      this.updateNode(path, this.model[path].value, true);
+    });
+  }
+
   /*
   * Public API
   */
@@ -126,7 +138,9 @@ export default class ValidatorHandler {
 
   getModel = (): any => {
     let modelWithJustValues = mapValues(this.model, fullModelNode => fullModelNode.value);
-    let unflattenedModel = unflatten(modelWithJustValues, {});
+    let flattenSchema = flatten(this.schema, {});
+    let modelWithJustValuesFiltered = pick(modelWithJustValues, Object.keys(flattenSchema));
+    let unflattenedModel = unflatten(modelWithJustValuesFiltered, {});
     return unflattenedModel;
   }
 
