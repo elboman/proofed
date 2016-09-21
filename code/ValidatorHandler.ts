@@ -94,6 +94,9 @@ export default class ValidatorHandler {
     }
     this.model[path] = newNode;
     this.pristine = skipPristineCheck ? this.pristine : false;
+    // update all errors that may depend on current node being updated
+    Object.getOwnPropertyNames(this.model)
+      .map(path => this.model[path].errors = this.getErrors(this.model[path].value, this.model[path].rules))
     typeof this.subscriber === 'function' && this.subscriber();
   }
 
