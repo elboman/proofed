@@ -1,6 +1,9 @@
 .DS_STORE
 
-typings/
+.*
+**/webpack.config.js
+**/tsconfig.json
+
 node_modules/
 
 example/

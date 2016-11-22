@@ -1,8 +1,8 @@
 .DS_STORE
 .vscode
 
-typings/
 node_modules/
 
-dist/
+lib/
+lib-esm/
 _bundles/

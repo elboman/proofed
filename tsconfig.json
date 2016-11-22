@@ -1,33 +1,26 @@
 {
-  "moduleResolution": "node",
   "compilerOptions": {
+    "moduleResolution": "node",
     "module": "commonjs",
     "target": "es5",
-    "jsx": "react",
+    "lib": [ "es2015", "dom" ],
+    "outDir": "lib",
     "allowSyntheticDefaultImports": true,
     "suppressImplicitAnyIndexErrors": true,
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
     "declaration": true,
-    "outDir": "dist",
-    "sourceRoot": "code",
-    "rootDir": "code"
+    "jsx": "react"
   },
-  "exclude": [
-    "node_modules",
-    "bower_components",
-    "example"
+  "files": [
+    "./code/index.ts"
   ],
-  "awesomeTypescriptLoaderOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "jsx": "react",
-    "allowSyntheticDefaultImports": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "forceConsistentCasingInFileNames": true,
-    "sourceMap": true,
-    "declaration": false
-  },
   "compileOnSave": false,
-  "buildOnSave": false
+  "buildOnSave": false,
+  "rules": {
+    "indent": [
+      true,
+      2
+    ]
+  }
 }

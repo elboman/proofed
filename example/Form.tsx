@@ -30,7 +30,9 @@ let schemaWithLast = {
 
 export default class Form extends React.Component<any,any> {
   state = {
-    showRepeatLastname: false
+    showRepeatLastname: false,
+    schema: schema,
+    schemaWithLast: schemaWithLast
   }
 
   toggleShow = () => {
@@ -43,47 +45,48 @@ export default class Form extends React.Component<any,any> {
   }
 
   render () {
-    let show = this.state.showRepeatLastname;
-    let _schema = schema;
-    if (show) _schema = schemaWithLast;
+    const {showRepeatLastname, schema: _schema, schemaWithLast: _schemaWithLast} = this.state;
     return (
-        <Proofed schema={_schema} render={({model, handle, submit, isValid, isPristine, errors}) =>
-         <div>
-           <button onClick={this.toggleShow}>toggle</button>
-           <h3>My awesome form!</h3>
-           <div>
+      <Proofed schema={showRepeatLastname ? _schemaWithLast : _schema} render={({model, handle, submit, isValid, isPristine, errors}) =>
+        <div>
+          <button onClick={this.toggleShow}>toggle</button>
+          <h3>My awesome form!</h3>
+          <div>
              <input value={model.age} onChange={handle('age')} type="number" />
              {errors('age').map((error, i) => <p key={i}>{error}</p>)}
-           </div>
-           <div>
+          </div>
+          <div>
              <input value={model.name.first} onChange={handle('name.first')} />
              {errors('name.first').map((error, i) => <p key={i}>{error}</p>)}
-           </div>
-           <div>
+          </div>
+          <div>
              <input value={model.name.last} onChange={handle('name.last')} />
              {errors('name.last').map((error, i) => <p key={i}>{error}</p>)}
-           </div>
-           <div>
+          </div>
+          <div>
             <input type="checkbox" checked={model.subscribe} onChange={handle('subscribe', (e) => e.target.checked)} />
             {' '}Subscribe
-           </div>
-           <div>
-             <input value={model.repeatName} onChange={handle('repeatName')} />
-             {errors('repeatName').map((error, i) => <p key={i}>{error}</p>)}
-           </div>
-           {
-             show
-              ? <div>
-                  <input value={model.repeatLast} onChange={handle('repeatLast')} />
-                  {errors('repeatLast').map((error, i) => <p key={i}>{error}</p>)}
-                </div>
-              : null
-           }
-           <button onClick={submit(this.handleSubmit)}>submit!</button>
-           <p>{isPristine() ? 'The form is pristine' : 'The form is dirty!'}</p>
-           <p>{isValid() ? 'The form is valid!' : 'The form is not valid!'}</p>
-         </div>
-       }/>
+          </div>
+          <div>
+            <input value={model.repeatName} onChange={handle('repeatName')} />
+            {errors('repeatName').map((error, i) => <p key={i}>{error}</p>)}
+          </div>
+          {
+            showRepeatLastname
+            ? <div>
+                <input value={model.repeatLast} onChange={handle('repeatLast')} />
+                {errors('repeatLast').map((error, i) => <p key={i}>{error}</p>)}
+              </div>
+            : null
+          }
+          <button onClick={submit(this.handleSubmit)}>submit!</button>
+          <p>{isPristine() ? 'The form is pristine' : 'The form is dirty!'}</p>
+          <p>{isValid() ? 'The form is valid!' : 'The form is not valid!'}</p>
+          <br />
+          <h4>Output</h4>
+          <pre dangerouslySetInnerHTML={{__html: JSON.stringify(model, null, 2)}}></pre>
+        </div>
+      }/>
     );
   }
 }

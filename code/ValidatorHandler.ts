@@ -56,7 +56,7 @@ export default class ValidatorHandler {
 
   private createValidatorModelFromSchema = (schema: ISchema, retainModel?: boolean): IValidationModel => {
     let flattenSchema = flatten(schema, {});
-    let validationModel = mapValues(flattenSchema, (rulesAndDefault, path) => {
+    let validationModel = mapValues(flattenSchema, (rulesAndDefault: IRule[], path: string) => {
       let rules = rulesAndDefault.filter(rule => typeof rule === 'function');
       let defaultValue = rulesAndDefault.filter(rule => typeof rule !== 'function')[0];
       let value = defaultValue;

@@ -14,7 +14,7 @@ const webpackProduction = {
     umdNamedDefine: true
   },
   resolve: {
-    extensions: ['', '.ts', '.tsx', '.js', '.jsx']
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
   devtool: 'source-map',
   plugins: [
@@ -44,14 +44,14 @@ const webpackDevelopment = {
     filename: 'bundle.js'
   },
   resolve: {
-    extensions: ['', '.ts', '.tsx', '.js', '.jsx']
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
   devtool: 'source-map',
   module: {
     loaders: [
       {
         test: /\.tsx?$/,
-        loader: "awesome-typescript-loader?tsconfig=./tsconfig.example.json",
+        loader: "awesome-typescript-loader",
         exclude: /node_modules/
       }
     ]
